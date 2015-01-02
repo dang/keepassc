@@ -649,9 +649,9 @@ class Control(object):
                 return False
             elif e == NL:
                 return highlight
-            elif (e == cur.KEY_DOWN or e == ord('j')) and highlight < len(misc):
+            elif (e == cur.KEY_DOWN or e == ord(self.config['nav_down'])) and highlight < len(misc):
                 highlight += 1
-            elif (e == cur.KEY_UP or e == ord('k')) and highlight > 1:
+            elif (e == cur.KEY_UP or e == ord(self.config['nav_up'])) and highlight > 1:
                 highlight -= 1
             elif 49 <= e <= 48 + len(misc):  # ASCII(49) = 1 ...
                 return e - 48
@@ -710,9 +710,9 @@ class Control(object):
                     items[highlight - 1] = 1
                 else:
                     items[highlight - 1] = 0
-            elif (e == cur.KEY_DOWN or e == ord('j')) and highlight < len(misc):
+            elif (e == cur.KEY_DOWN or e == ord(self.config['nav_down'])) and highlight < len(misc):
                 highlight += 1
-            elif (e == cur.KEY_UP or e == ord('k')) and highlight > 1:
+            elif (e == cur.KEY_UP or e == ord(self.config['nav_up'])) and highlight > 1:
                 highlight -= 1
             elif e == NL:
                 return items
@@ -799,7 +799,38 @@ class Control(object):
                                'rem_db': True,
                                'rem_key': False,
                                'skip_menu': False,
-                               'pin': True}
+                               'pin': True,
+                               'cancel': 'e',
+                               'quit': 'q',
+                               'copy_password': 'c',
+                               'copy_username': 'b',
+                               'open_url': 'o',
+                               'save': 's',
+                               'save_as': 'S',
+                               'save_n_quit': 'x',
+                               'lock': 'L',
+                               'change_db_password': 'P',
+                               'create_group': 'g',
+                               'create_sub_group': 'G',
+                               'create_entry': 'y',
+                               'delete': 'd',
+                               'find_entries': 'f',
+                               'edit_title': 't',
+                               'edit_username': 'u',
+                               'edit_url': 'U',
+                               'edit_comment': 'C',
+                               'edit_password': 'p',
+                               'edit_date': 'E',
+                               'show_hide': 'H',
+                               'move': 'm',
+                               'nav_down': 'j',
+                               'nav_up': 'k',
+                               'nav_left': 'h',
+                               'nav_right': 'l',
+                               'nav_end': 'G',
+                               'reload_remote_db': 'r',
+                               'open_file': 'o',
+                              }
             elif menu == 10:
                 write_config(self, self.config)
                 return True
@@ -1183,54 +1214,56 @@ class Control(object):
         if mode_new:
             self.draw_help(
             'Navigate with arrow keys.',
-            '\'o\' - choose directory',
-            '\'e\' - abort',
-            '\'H\' - show/hide hidden files',
+            '\'' + self.config['open_url'] + '\' - choose directory',
+            '\'' + self.config['cancel'] + '\' - abort',
+            '\'' + self.config['show_hide'] + '\' - show/hide hidden files',
             '\'ngg\' - move to line n',
-            '\'G\' - move to last line',
+            '\'' + self.config['nav_end'] + '\' - move to last line',
             '/text - go to \'text\' (like in vim/ranger)',
             '\n',
             'Press return.')
         else:
             self.draw_help(
             'Navigate with arrow keys.',
-            '\'q\' - close program',
-            '\'e\' - abort',
-            '\'H\' - show/hide hidden files',
+            '\'' + self.config['quit'] + '\' - close program',
+            '\'' + self.config['cancel'] + '\' - abort',
+            '\'' + self.config['show_hide'] + '\' - show/hide hidden files',
             '\'ngg\' - move to line n',
-            '\'G\' - move to last line',
+            '\'' + self.config['nav_end'] + '\' - move to last line',
             '/text - go to \'text\' (like in vim/ranger)',
             '\n',
             'Press return.')
 
     def dbbrowser_help(self):
         self.draw_help(
-        '\'e\' - go to main menu',
-        '\'q\' - close program',
+        '\'' + self.config['cancel'] + '\' - go to main menu',
+        '\'' + self.config['quit'] + '\' - close program',
         '\'CTRL+D\' or \'CTRL+C\' - close program at any time',
-        '\'x\' - save db and close program',
-        '\'s\' - save db',
-        '\'S\' - save db with alternative filepath',
-        '\'c\' - copy password of current entry',
-        '\'b\' - copy username of current entry',
-        '\'H\' - show password of current entry',
-        '\'o\' - open URL of entry in standard webbrowser',
-        '\'P\' - edit db password',
-        '\'g\' - create group',
-        '\'G\' - create subgroup',
-        '\'y\' - create entry',
-        '\'d\' - delete group or entry (depends on what is marked)',
-        '\'t\' - edit title of selected group or entry',
-        '\'u\' - edit username',
-        '\'p\' - edit password',
-        '\'U\' - edit URL',
-        '\'C\' - edit comment',
-        '\'E\' - edit expiration date',
-        '\'f\' or \'/\' - find entry by title',
-        '\'L\' - lock db',
-        '\'m\' - enter move mode for marked group or entry',
-        '\'r\' - reload remote database (no function if not remote)',
-        'Navigate with arrow keys or h/j/k/l like in vim',
+        '\'' + self.config['save_n_quit'] + '\' - save db and close program',
+        '\'' + self.config['save'] + '\' - save db',
+        '\'' + self.config['save_as'] + '\' - save db with alternative filepath',
+        '\'' + self.config['copy_password'] + '\' - copy password of current entry',
+        '\'' + self.config['copy_username'] + '\' - copy username of current entry',
+        '\'' + self.config['show_hide'] + '\' - show password of current entry',
+        '\'' + self.config['open_url'] + '\' - open URL of entry in standard webbrowser',
+        '\'' + self.config['change_db_password'] + '\' - edit db password',
+        '\'' + self.config['create_group'] + '\' - create group',
+        '\'' + self.config['create_sub_group'] + '\' - create subgroup',
+        '\'' + self.config['create_entry'] + '\' - create entry',
+        '\'' + self.config['delete'] + '\' - delete group or entry (depends on what is marked)',
+        '\'' + self.config['edit_title'] + '\' - edit title of selected group or entry',
+        '\'' + self.config['edit_username'] + '\' - edit username',
+        '\'' + self.config['edit_password'] + '\' - edit password',
+        '\'' + self.config['edit_url'] + '\' - edit URL',
+        '\'' + self.config['edit_comment'] + '\' - edit comment',
+        '\'' + self.config['edit_date'] + '\' - edit expiration date',
+        '\'' + self.config['find_entries'] + '\' or \'/\' - find entry by title',
+        '\'' + self.config['lock'] + '\' - lock db',
+        '\'' + self.config['move'] + '\' - enter move mode for marked group or entry',
+        '\'' + self.config['reload_remote_db'] + '\' - reload remote database (no function if not remote)',
+        'Navigate with arrow keys or ' + self.config['nav_left'] + '/' +
+            self.config['nav_down'] + '/' + self.config['nav_up'] + '/' +
+            self.config['nav_right'] + ' like in vim',
         'Type \'return\' to enter subgroups',
         'Type \'backspace\' to go back to parent',
         'Type \'F5\' in a dialog to return to the previous one',
@@ -1239,12 +1272,13 @@ class Control(object):
 
     def move_help(self):
         self.draw_help(
-        '\'e\' - go to main menu',
-        '\'q\' - close program',
+        '\'' + self.config['cancel'] + '\' - go to main menu',
+        '\'' + self.config['quit'] + '\' - close program',
         '\'CTRL+D\' or \'CTRL+C\' - close program at any time',
-        'Navigate up or down with arrow keys or k and j',
-        'Navigate to subgroup with right arrow key or h',
-        'Navigate to parent with left arrow key or l',
+        'Navigate up or down with arrow keys or ' + self.config['nav_up'] + ' and ' +
+            self.config['nav_down'] + '',
+        'Navigate to subgroup with right arrow key or ' + self.config['nav_left'] + '',
+        'Navigate to parent with left arrow key or ' + self.config['nav_right'] + '',
         'Type \'return\' to move the group to marked parent or the entry',
         '\tto the marked group',
         'Type \'backspace\' to move a group to the root',

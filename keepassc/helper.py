@@ -42,7 +42,38 @@ def parse_config(control):
               'rem_db': True,
               'rem_key': False,
               'skip_menu': False,
-              'pin': True}
+              'pin': True,
+              'cancel': 'e',
+              'quit': 'q',
+              'copy_password': 'c',
+              'copy_username': 'b',
+              'open_url': 'o',
+              'save': 's',
+              'save_as': 'S',
+              'save_n_quit': 'x',
+              'lock': 'L',
+              'change_db_password': 'P',
+              'create_group': 'g',
+              'create_sub_group': 'G',
+              'create_entry': 'y',
+              'delete': 'd',
+              'find_entries': 'f',
+              'edit_title': 't',
+              'edit_username': 'u',
+              'edit_url': 'U',
+              'edit_comment': 'C',
+              'edit_password': 'p',
+              'edit_date': 'E',
+              'show_hide': 'H',
+              'move': 'm',
+              'nav_down': 'j',
+              'nav_up': 'k',
+              'nav_left': 'h',
+              'nav_right': 'l',
+              'nav_end': 'G',
+              'reload_remote_db': 'r',
+              'open_file': 'o',
+             }
 
     if isfile(control.config_home):
         try:
@@ -51,13 +82,16 @@ def parse_config(control):
             print(err.__str__())
         else:
             for line in handler:
-                key, val = line.split('=')
-                if val == 'True\n':
+                key, lval = line.strip().split('=')
+                if lval == 'True':
                     val = True
-                elif val == 'False\n':
+                elif lval == 'False':
                     val = False
                 else:
-                    val = int(val)
+                    try:
+                        val = int(lval)
+                    except:
+                        val = lval
                 if key in config:
                     config[key] = val
             handler.close()

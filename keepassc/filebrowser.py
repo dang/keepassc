@@ -46,23 +46,23 @@ class FileBrowser(object):
         self.return_flag = False
         self.lookup = {
             cur.KEY_DOWN:   self.nav_down,
-            ord('j'):       self.nav_down,
+            ord(self.control.config['nav_down']):   self.nav_down,
             cur.KEY_UP:     self.nav_up,
-            ord('k'):       self.nav_up,
+            ord(self.control.config['nav_up']):     self.nav_up,
             cur.KEY_LEFT:   self.nav_left,
-            ord('h'):       self.nav_left,
+            ord(self.control.config['nav_left']):   self.nav_left,
             cur.KEY_RIGHT:  self.nav_right,
-            ord('l'):       self.nav_right,
+            ord(self.control.config['nav_right']):  self.nav_right,
             NL:             self.nav_right,
             cur.KEY_RESIZE: self.control.resize_all,
             cur.KEY_F1:     self.browser_help,
-            ord('H'):       self.show_hidden,
-            ord('o'):       self.open_file,
+            ord(self.control.config['show_hide']):  self.show_hidden,
+            ord(self.control.config['open_file']):  self.open_file,
             cur.KEY_F5:     self.cancel,
-            ord('e'):       self.cancel,
+            ord(self.control.config['cancel']):     self.cancel,
             4:              self.close,
-            ord('q'):       self.close,
-            ord('G'):       self.G_typed,
+            ord(self.control.config['quit']):       self.close,
+            ord(self.control.config['nav_end']):    self.G_typed,
             ord('/'):       self.find}
         self.find_rem = []
         self.find_pos = 0
